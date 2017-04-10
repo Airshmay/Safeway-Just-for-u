@@ -1,15 +1,15 @@
 // ==UserScript==
-// @name    	safeway-justforu
-// @namespace	safeway-justforu
-// @description	safeway, vons, dominicks, genuardis, pavilions, randalls, tomthumb J4U coupons automatically added to your card.
-// @include		http://www.safeway.com/ShopStores/Justforu*
+// @name        safeway-justforu
+// @namespace   safeway-justforu
+// @description safeway, vons, dominicks, genuardis, pavilions, randalls, tomthumb J4U coupons automatically added to your card.
+// @include     http://www.safeway.com/ShopStores/Justforu*
 // @include     http://www.vons.com/ShopStores/Justforu*
 // @include     http://www.dominicks.com/ShopStores/Justforu*
 // @include     http://www.genuardis.com/ShopStores/Justforu*
 // @include     http://www.pavilions.com/ShopStores/Justforu*
 // @include     http://www.randalls.com/ShopStores/Justforu*
 // @include     http://www.tomthumb.com/ShopStores/Justforu*
-// @require		https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant       none
 // ==/UserScript==
 
@@ -40,14 +40,14 @@ function OfferProcessor(url, callback) {
                         url: _clippingUrl,
                         contentType: 'application/json',
                         data: jsonStr,
-			beforeSend: function (xhr) {
-				xhr.setRequestHeader('SWY_API_KEY', 'emjou');
-				xhr.setRequestHeader('SWY_BANNER', 'safeway');
-				xhr.setRequestHeader('SWY_VERSION', '1.0');
-				xhr.setRequestHeader('X-SWY_API_KEY', 'emjou');
-				xhr.setRequestHeader('X-SWY_BANNER', 'safeway');
-				xhr.setRequestHeader('X-SWY_VERSION', '1.0');
-			}
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('SWY_API_KEY', 'emjou');
+                xhr.setRequestHeader('SWY_BANNER', 'safeway');
+                xhr.setRequestHeader('SWY_VERSION', '1.0');
+                xhr.setRequestHeader('X-SWY_API_KEY', 'emjou');
+                xhr.setRequestHeader('X-SWY_BANNER', 'safeway');
+                xhr.setRequestHeader('X-SWY_VERSION', '1.0');
+            }
                     });
                 }
             }
