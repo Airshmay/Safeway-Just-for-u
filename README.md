@@ -7,3 +7,4 @@ This script only loads offers to your card, keeping your shopping list unclutter
 
 You should be able to confirm that offers are added to card via the mobile app--old versions will display "added to card" under the product images.
 
+![](/demo.gif?raw=true)
