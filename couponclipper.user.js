@@ -29,11 +29,12 @@ function OfferProcessor(url, callback) {
                     count++;
                     var clips = [];
                     var clip = {};
-                    clip.offerId = offer.offerId;
-                    clip.offerPgm = offer.offerPgm;
+                    clip.itemId = offer.offerId;
+                    clip.itemType = offer.offerPgm;
+                    clip.vndrBannerCd = ""; // ??
                     clips.push(clip);
                     var postRequest = {};
-                    postRequest.clips = clips;
+                    postRequest.items = clips;
                     var jsonStr = JSON.stringify(postRequest);
                     $.ajax({
                         type: 'POST',
@@ -89,22 +90,17 @@ function Counter(maxCnt) {
 
 
 $(document).ready(function () {
-    var counter = Counter(3);
-    var ccOfferProcessor = OfferProcessor("/J4UProgram1/services/program/CC/offer/allocations", counter.incrementCount);
-    var pdOfferProcessor = OfferProcessor("/J4UProgram1/services/program/PD/offer/allocations", counter.incrementCount);
-    var ycsOfferProcessor = OfferProcessor("/J4UProgram1/services/program/YCS/offer/allocations", counter.incrementCount);
+    var counter = Counter(1);
+    var cdOfferProcessor = OfferProcessor("/J4UProgram1/services/program/CD/offer/allocations", counter.incrementCount);
 
     var printData = function () {
-        var ccCount = ccOfferProcessor.getOffersAdded();
-        var pdCount = pdOfferProcessor.getOffersAdded();
-        if (ccCount + pdCount > 0) {
-            alert("J4U - Added " + ccCount + " 'Coupon Center' coupons and \n " + pdCount + " 'Personalized Deals' Coupons. \n Please reload the page.");
+        var cdCount = cdOfferProcessor.getOffersAdded();
+        if (cdCount > 0) {
+            alert("J4U - Added " + cdCount + " coupons.");
         }
     }
 
     counter.setCallback(printData);
-    ccOfferProcessor.process();
-    pdOfferProcessor.process();
-    ycsOfferProcessor.process();
+    cdOfferProcessor.process();
 
 });
