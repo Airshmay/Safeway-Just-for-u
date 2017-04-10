@@ -17,7 +17,7 @@ function OfferProcessor(url, callback) {
     var _url = url;
     var _offersAdded = 0;
     var _callback = callback;
-    var _clippingUrl = "/Clipping1/services/clip/offers";
+    var _clippingUrl = "/Clipping1/services/clip/items";
 
     return {
         processOffers: function (data) {
@@ -29,9 +29,14 @@ function OfferProcessor(url, callback) {
                     count++;
                     var clips = [];
                     var clip = {};
+                    clip.clipType = "C";
                     clip.itemId = offer.offerId;
                     clip.itemType = offer.offerPgm;
-                    clip.vndrBannerCd = ""; // ??
+                    if (offer.offerPgm === "MF") {
+                        clip.vndrBannerCd = "2bbf4b36-a75e-11e6-80f5-76304dec7eb7#C"; // safeway specific??
+                    } else {
+                        clip.vndrBannerCd = "";
+                    }
                     clips.push(clip);
                     var postRequest = {};
                     postRequest.items = clips;
