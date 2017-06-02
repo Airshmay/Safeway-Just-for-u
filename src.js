@@ -25,7 +25,10 @@ coupons.filter(function(x){return x.clipStatus==="U";}).forEach(function(item){
     body: JSON.stringify(data)
   });
 
-  fetch(request);
+  fetch(request).then(function(){
+    document.querySelector("#headerMyListCount").textContent =
+      parseInt(document.querySelector("#headerMyListCount").textContent,10)+1;
+  });
 });
 
 alert('clipping ' + coupons.filter(function(x){return x.clipStatus==="U"}).length + ' J4U coupons');
