@@ -1,9 +1,9 @@
 var coupons = angular.element("#lt-coupon-area").scope().sharedValues.unfilteredItems.slice();
+var token = localStorage.getItem("oktathenticateAccessToken");
+
+if (token && coupons) {
 
 coupons.filter(function(x){return x.clipStatus==="U";}).forEach(function(item){
-
-  var c1 = document.cookie.match(new RegExp('swyConsumerlbcookie=([^;]+)'))[1];
-  var c2 = document.cookie.match(new RegExp('swyConsumerDirectoryPro=([^;]+)'))[1];
   var data = {"items":[]};
   var clip = {}; clip.clipType="C";clip.itemId=item.offerId;clip.itemType=item.offerPgm;clip.vndrBannerCd="";
   var list = {}; list.clipType="L";list.itemId=item.offerId;list.itemType=item.offerPgm;
@@ -14,13 +14,12 @@ coupons.filter(function(x){return x.clipStatus==="U";}).forEach(function(item){
     mode: 'cors',
     redirect: 'error',
     headers: new Headers({
-      'Content-Type': 'application/json',
       'X-SWY_VERSION': '1.0',
-      'X-SWY_API_KEY': 'emjou',
       'X-SWY_BANNER': 'safeway',
-      'SWY_ISREMEMBERED': 'false',
-      'X-swyConsumerlbcookie': c1,
-      'X-swyConsumerDirectoryPro': c2
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json;charset=UTF-8',
+      'X-SWY_API_KEY': 'emjou',
+      'X-swyConsumerDirectoryPro': token
     }),
     body: JSON.stringify(data)
   });
@@ -32,3 +31,11 @@ coupons.filter(function(x){return x.clipStatus==="U";}).forEach(function(item){
 });
 
 alert('clipping ' + coupons.filter(function(x){return x.clipStatus==="U"}).length + ' J4U coupons');
+
+}
+
+if (!token) {
+
+alert('not logged in or a website change broke this again');
+
+}

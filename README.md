@@ -34,4 +34,4 @@ important bits in bold.
 
 Q: does this work on similar non-Safeway sites (Vons, Dominick's, etc.)?
 
-A: maybe. you'll probably need to modify the request URL
+A: only with some modifications
