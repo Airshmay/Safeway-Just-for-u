@@ -22,9 +22,8 @@ important bits in bold.
 * log into your Safeway account
 * go to the *just for u* page (**the one with the coupons**)
 * click on the bookmarklet
-* dismiss the alert (**the clipping happens after you click ok**)
-* **wait 10s~30s** depending on how many coupons you have (keep an eye on the *my list* count at the top of the page)
-* refresh the page to see the changes
+* dismiss the initial alert (**the clipping starts after you click ok**)
+* dismiss the second alert to refresh the page and see the changes
 
 # :movie_camera:
 
