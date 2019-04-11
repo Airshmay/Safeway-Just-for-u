@@ -34,4 +34,4 @@ important bits in bold.
 
 Q: does this work on similar non-Safeway sites (Vons, Dominick's, etc.)?
 
-A: only with some modifications
+A: maybe idk

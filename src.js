@@ -1,41 +1,51 @@
-var coupons = angular.element("#lt-coupon-area").scope().sharedValues.unfilteredItems.slice();
-var token = localStorage.getItem("oktathenticateAccessToken");
+"use strict";
+var promises = [];
+var allcoupons = Object.values(JSON.parse(localStorage.getItem("abCoupons"))["offers"]);
+var coupons = allcoupons.filter(function(x){return x.status==="U";}).filter(function(y){return y.deleted!==0;});
+if (coupons.length > 0) {
 
-if (token && coupons) {
+  window.alert("clipping " + coupons.length + " of " + allcoupons.length + " coupons");
 
-coupons.filter(function(x){return x.clipStatus==="U";}).forEach(function(item){
-  var data = {"items":[]};
-  var clip = {}; clip.clipType="C";clip.itemId=item.offerId;clip.itemType=item.offerPgm;clip.vndrBannerCd="";
-  var list = {}; list.clipType="L";list.itemId=item.offerId;list.itemType=item.offerPgm;
-  data.items.push(clip);data.items.push(list);
-
-  var request = new Request('https://nimbus.safeway.com/Clipping1/services/clip/items', {
-    method: 'POST',
-    mode: 'cors',
-    redirect: 'error',
-    headers: new Headers({
-      'X-SWY_VERSION': '1.0',
-      'X-SWY_BANNER': 'safeway',
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/json;charset=UTF-8',
-      'X-SWY_API_KEY': 'emjou',
-      'X-swyConsumerDirectoryPro': token
-    }),
-    body: JSON.stringify(data)
+  coupons.forEach(function(item){
+    var data = {"items":[]}, clip = {}, list = {};
+    clip.clipType="C";clip.itemId=item.offerId;clip.itemType=item.offerPgm;
+    list.clipType="L";list.itemId=item.offerId;list.itemType=item.offerPgm;
+    data.items.push(clip);data.items.push(list);
+    var request = new Request(window.AB.couponClipPath + "?storeId\x3d" + window.AB.userInfo.j4u.storeId, {
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'error',
+      headers: new Headers(window.AB.j4uHttpOptions),
+      body: JSON.stringify(data)
+    });
+     var promise = fetch(request).then(function(response) {
+        return response.json();
+      })
+      .then(function(itemjson) {
+        if (itemjson.items[0]["status"] === 1) {
+          var wtf = JSON.parse(localStorage.getItem("abCoupons"));
+          wtf.offers[item.offerId].status = "C";
+          localStorage.setItem("abCoupons", JSON.stringify(wtf));
+        }
+      });
+      promises.push(promise);
   });
 
-  fetch(request).then(function(){
-    document.querySelector("#headerMyListCount").textContent =
-      parseInt(document.querySelector("#headerMyListCount").textContent,10)+1;
+  Promise.all(promises).then(function(){
+  if (Object.values(JSON.parse(localStorage.getItem("abCoupons"))["offers"]).filter(function(x){return x.status==="U";}).filter(function(y){return y.deleted!==0;}).length > 0) {
+    window.alert("there are still some unclipped coupons - something probably broke this script");
+  } else {
+    window.alert("all coupons clipped - reloading page");
+  }
+  localStorage.removeItem("abCoupons");
+  localStorage.removeItem("abJ4uCoupons");
+  location.reload();
   });
-});
 
-alert('clipping ' + coupons.filter(function(x){return x.clipStatus==="U"}).length + ' J4U coupons');
-
-}
-
-if (!token) {
-
-alert('not logged in or a website change broke this again');
-
+} else {
+  if (allcoupons.length > 0) {
+    window.alert("no clippable coupons");
+  } else {
+    window.alert("no coupons detected");
+  }
 }
