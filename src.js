@@ -1,6 +1,6 @@
 "use strict";
 var promises = [];
-var allcoupons = Object.values(JSON.parse(localStorage.getItem("abCoupons"))["offers"]);
+var allcoupons = Object.values(JSON.parse(localStorage.getItem("abJ4uCoupons"))["objCoupons"]);
 var coupons = allcoupons.filter(function(x){return x.status==="U";}).filter(function(y){return y.deleted!==0;});
 if (coupons.length > 0) {
 
@@ -23,16 +23,16 @@ if (coupons.length > 0) {
       })
       .then(function(itemjson) {
         if (itemjson.items[0]["status"] === 1) {
-          var wtf = JSON.parse(localStorage.getItem("abCoupons"));
-          wtf.offers[item.offerId].status = "C";
-          localStorage.setItem("abCoupons", JSON.stringify(wtf));
+          var wtf = JSON.parse(localStorage.getItem("abJ4uCoupons"));
+          wtf.objCoupons[item.offerId].status = "C";
+          localStorage.setItem("abJ4uCoupons", JSON.stringify(wtf));
         }
       });
       promises.push(promise);
   });
 
   Promise.all(promises).then(function(){
-  if (Object.values(JSON.parse(localStorage.getItem("abCoupons"))["offers"]).filter(function(x){return x.status==="U";}).filter(function(y){return y.deleted!==0;}).length > 0) {
+  if (Object.values(JSON.parse(localStorage.getItem("abJ4uCoupons"))["objCoupons"]).filter(function(x){return x.status==="U";}).filter(function(y){return y.deleted!==0;}).length > 0) {
     window.alert("there are still some unclipped coupons - something probably broke this script");
   } else {
     window.alert("all coupons clipped - reloading page");
