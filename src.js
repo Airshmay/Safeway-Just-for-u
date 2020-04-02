@@ -24,8 +24,11 @@ if (coupons.length > 0) {
       .then(function(itemjson) {
         if (itemjson.items[0]["status"] === 1) {
           var wtf = JSON.parse(localStorage.getItem("abJ4uCoupons"));
-          wtf.objCoupons[item.offerId].status = "C";
-          localStorage.setItem("abJ4uCoupons", JSON.stringify(wtf));
+          var index = wtf.objCoupons.findIndex(function(obj){return obj.offerId === item.offerId});
+          if (index !== -1) {
+            wtf.objCoupons[index].status = "C";
+            localStorage.setItem("abJ4uCoupons", JSON.stringify(wtf));
+          }
         }
       });
       promises.push(promise);
