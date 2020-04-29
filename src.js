@@ -24,10 +24,15 @@ if (coupons.length > 0) {
       .then(function(itemjson) {
         if (itemjson.items[0]["status"] === 1) {
           var wtf = JSON.parse(localStorage.getItem("abJ4uCoupons"));
-          var index = wtf.objCoupons.findIndex(function(obj){return obj.offerId === item.offerId});
-          if (index !== -1) {
-            wtf.objCoupons[index].status = "C";
+          if (wtf.objCoupons[item.offerId] && wtf.objCoupons[item.offerId]["offerId"] === item.offerId) {
+            wtf.objCoupons[item.offerId].status = "C";
             localStorage.setItem("abJ4uCoupons", JSON.stringify(wtf));
+          } else {
+            var index = wtf.objCoupons.findIndex(function(obj){return obj.offerId === item.offerId});
+            if (index !== -1) {
+              wtf.objCoupons[index].status = "C";
+              localStorage.setItem("abJ4uCoupons", JSON.stringify(wtf));
+            }
           }
         }
       });
